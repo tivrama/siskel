@@ -31,12 +31,10 @@ describe('Siskel', function() {
     it('should start out true', function() {
       expect(model.get('like')).to.be.true;
     });
-
     it('should toggle its state', function() {
       model.toggleLike();
       expect(model.get('like')).to.be.false;
     });
-
   });
 
   describe('Movie collection', function() {
@@ -55,10 +53,12 @@ describe('Siskel', function() {
       expect(collection.sort).to.have.been.called;
     });
 
+//---------------------------------------------------------------
     it('should trigger sort when a model changes', function() {
       model.toggleLike();
       expect(collection.sort).to.have.been.called;
     });
+//---------------------------------------------------------------
 
   });
 
@@ -102,11 +102,12 @@ describe('Siskel', function() {
       MoviesView.prototype.render.restore();
     });
 
+//---------------------------------------------------------------
     it('should re-render when the collection sorts', function() {
       collection.sort();
       expect(collectionView.render).to.have.been.called;
     });
-
+//---------------------------------------------------------------
   });
 
 });
