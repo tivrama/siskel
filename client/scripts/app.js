@@ -4,52 +4,44 @@ var Movie = Backbone.Model.extend({
     like: true
   },
 
-  //Controler
   toggleLike: function() {
     // your code here
-    //make a var movieLike
+        //make a var movieLike
     var movieLike = this.get('like');
     if (movieLike === true) {
       this.set({like: false});
     } else {
       this.set({like: true});
     }
-    // console.log(this)
   }
 
 });
 
-
-//-----------------------------------------------
 var Movies = Backbone.Collection.extend({
 
   model: Movie,
 
   initialize: function() {
     // your code here
-    this.on("change:comparator", MoviesView.render, this);   // Not working 
+    this.on("change", this.sort, this);   // Not working 
+
   },
 
   comparator: 'title',
 
-  //controler to sort by input field - in test's case this is rating
   sortByField: function(field) {
     // your code here
     this.comparator = field;
     // this.set({comparator: field}); 
     this.sort()   
-    console.log(this) //this does appear to sort.  But the render is not working
   }
 
 });
 
-
-//-----------------------------------------------
 var AppView = Backbone.View.extend({
 
   events: {
     'click form input': 'handleClick'
-
   },
 
   handleClick: function(e) {
@@ -66,8 +58,6 @@ var AppView = Backbone.View.extend({
 
 });
 
-
-//-----------------------------------------------
 var MovieView = Backbone.View.extend({
 
   template: _.template('<div class="movie"> \
@@ -81,9 +71,7 @@ var MovieView = Backbone.View.extend({
 
   initialize: function() {
     // your code here
-    //invoke render after model change
     this.model.on("change:like", this.render, this);
-
   },
 
   events: {
@@ -92,9 +80,7 @@ var MovieView = Backbone.View.extend({
 
   handleClick: function() {
     // your code here
-    // console.log(this)
     this.model.toggleLike()
-
   },
 
   render: function() {
@@ -104,12 +90,11 @@ var MovieView = Backbone.View.extend({
 
 });
 
-
-//-----------------------------------------------
 var MoviesView = Backbone.View.extend({
 
   initialize: function() {
     // your code here
+    this.collection.on("sort", this.render, this);
   },
 
   render: function() {
